@@ -63,8 +63,107 @@ class StudentSummaryUITableViewController: UITableViewController {
                     }
                 }
                 
-                self.tableView.reloadData()
-                
+                let schemeCollection = db.collection("schemes")
+                schemeCollection.getDocuments()
+                { result, error in
+                        //check for server error
+                    if let err = error
+                    {
+                        print("Error getting document: \(err)")
+                    }
+                    else
+                    {
+                        //loop through the results
+                        self.schemes.removeAll()
+                        for document in result!.documents
+                        {
+                            //attempt to convert to student object
+                            let conversionResult = Result
+                            {
+                                try document.data(as: Scheme.self)
+                            }
+                            //check if conversionResult is success or failure
+                            switch conversionResult
+                            {
+                            case .success(let convertedDoc):
+                                 if var scheme = convertedDoc
+                                 {
+                                    scheme.docId = document.documentID
+                                    //print("Scheme: \(scheme)")
+                                    
+                                    //assign to students
+                                    self.schemes.append(scheme)
+                                 }
+                                 else
+                                 {
+                                    print("Document does not exist")
+                                 }
+                            case .failure(let error):
+                                print("Error decoding scheme: \(error)")
+                            }
+                        }
+                        
+                        self.tableView.reloadData()
+                        
+                        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadDB(notification:)), name: Notification.Name("reloadDBToStudent"), object: nil)
+                        
+                    }
+                }
+            }
+        }
+        
+        
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        
+        
+    }
+    
+    @objc func reloadDB(notification: Notification){
+        let db = Firestore.firestore()
+        let studentCollection = db.collection("students")
+        studentCollection.getDocuments()
+        { result, error in
+                //check for server error
+            if let err = error
+            {
+                print("Error getting document: \(err)")
+            }
+            else
+            {
+                //loop through the results
+                self.students.removeAll()
+                for document in result!.documents
+                {
+                    //attempt to convert to student object
+                    let conversionResult = Result
+                    {
+                        try document.data(as: StudentSummary.self)
+                    }
+                    //check if conversionResult is success or failure
+                    switch conversionResult
+                    {
+                    case .success(let convertedDoc):
+                         if var student = convertedDoc
+                         {
+                            student.docId = document.documentID
+                            //print("Student: \(student)")
+                            
+                            //assign to students
+                            self.students.append(student)
+                         }
+                         else
+                         {
+                            print("Document does not exist")
+                         }
+                    case .failure(let error):
+                        print("Error decoding student: \(error)")
+                    }
+                }
             }
         }
         
@@ -109,13 +208,10 @@ class StudentSummaryUITableViewController: UITableViewController {
                 }
             }
         }
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
     }
 
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

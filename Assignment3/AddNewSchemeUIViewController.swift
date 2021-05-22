@@ -56,6 +56,7 @@ class AddNewSchemeUIViewController: UIViewController {
     }
     
     var newSchemeWeek:Int?
+    var students = [StudentSummary]()
     
     @IBAction func onSaveNewScheme(_ sender: Any) {
         (sender as! UIBarButtonItem).title = "Loading..."
@@ -71,7 +72,7 @@ class AddNewSchemeUIViewController: UIViewController {
                 return
             }
         }
-        let ext = (extraTextField.text! == "0") ? "" : extraTextField.text!
+        let ext = (extraTextField.text! == "0") ? "" : String(Int(extraTextField.text!)!)
         let newScheme = Scheme(docId: nil, pk: "", week: newSchemeWeek!, type: transferSchemeTypeDBtype(s: dropDownBtn.currentTitle!), extra: ext)
         
         let db = Firestore.firestore()
@@ -86,11 +87,27 @@ class AddNewSchemeUIViewController: UIViewController {
                 {
                     print("Successfully created scheme")
                     
-                    //update students grade
-                    
-                    self.performSegue(withIdentifier: "saveSchemeSegue", sender: sender)
-                    
+                        do
+                        {
+                            //update students grade
+                            for var s in self.students
+                            {
+                                s.grades.append("") //new scheme and give ""
+                                
+                                try db.collection("students").document(s.docId!).setData(from: s) {err in
+                                if let err = err {
+                                    print("Error updating document: \(err)")
+                                }else {
+                                    print("Document student successfully updated")
+                                    }
+                                }
+                            }
+                            self.performSegue(withIdentifier: "saveSchemeSegue", sender: sender)
+                        } catch {
+                            print("Error updating document \(error)")
+                        } 
                 }
+                
             })
         }catch let error {
             print("Error writing scheme to firestore: \(error)")
@@ -108,6 +125,49 @@ class AddNewSchemeUIViewController: UIViewController {
         extraLabel.isHidden = true
         extraTextField.isHidden = true
         weekLabel.text = "Week: \(String(newSchemeWeek!))"
+        
+        let db = Firestore.firestore()
+        let studentCollection = db.collection("students")
+        studentCollection.getDocuments()
+        { result, error in
+                //check for server error
+            if let err = error
+            {
+                print("Error getting document: \(err)")
+            }
+            else
+            {
+                //loop through the results
+                self.students.removeAll()
+                for document in result!.documents
+                {
+                    //attempt to convert to student object
+                    let conversionResult = Result
+                    {
+                        try document.data(as: StudentSummary.self)
+                    }
+                    //check if conversionResult is success or failure
+                    switch conversionResult
+                    {
+                    case .success(let convertedDoc):
+                         if var student = convertedDoc
+                         {
+                            student.docId = document.documentID
+                            //print("Student: \(student)")
+                            
+                            //assign to students
+                            self.students.append(student)
+                         }
+                         else
+                         {
+                            print("Document does not exist")
+                         }
+                    case .failure(let error):
+                        print("Error decoding student: \(error)")
+                    }
+                }
+            }
+        }
     }
     
     private func transferSchemeTypeDBtype(s:String) ->String{

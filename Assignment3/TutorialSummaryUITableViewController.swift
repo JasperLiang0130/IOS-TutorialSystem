@@ -59,52 +59,53 @@ class TutorialSummaryUITableViewController: UITableViewController {
                     }
                 }
                 
-                self.tableView.reloadData()
-                
-            }
-        }
-        
-        let schemeCollection = db.collection("schemes").order(by: "week")
-        schemeCollection.getDocuments()
-        { result, error in
-                //check for server error
-            if let err = error
-            {
-                print("Error getting document: \(err)")
-            }
-            else
-            {
-                //loop through the results
-                self.schemes.removeAll()
-                for document in result!.documents
-                {
-                    //attempt to convert to student object
-                    let conversionResult = Result
+                let schemeCollection = db.collection("schemes").order(by: "week")
+                schemeCollection.getDocuments()
+                { result, error in
+                        //check for server error
+                    if let err = error
                     {
-                        try document.data(as: Scheme.self)
+                        print("Error getting document: \(err)")
                     }
-                    //check if conversionResult is success or failure
-                    switch conversionResult
+                    else
                     {
-                    case .success(let convertedDoc):
-                         if var scheme = convertedDoc
-                         {
-                            scheme.docId = document.documentID
-                            //print("Scheme: \(scheme)")
-                            
-                            //assign to students
-                            self.schemes.append(scheme)
-                         }
-                         else
-                         {
-                            print("Document does not exist")
-                         }
-                    case .failure(let error):
-                        print("Error decoding scheme: \(error)")
+                        //loop through the results
+                        self.schemes.removeAll()
+                        for document in result!.documents
+                        {
+                            //attempt to convert to student object
+                            let conversionResult = Result
+                            {
+                                try document.data(as: Scheme.self)
+                            }
+                            //check if conversionResult is success or failure
+                            switch conversionResult
+                            {
+                            case .success(let convertedDoc):
+                                 if var scheme = convertedDoc
+                                 {
+                                    scheme.docId = document.documentID
+                                    //print("Scheme: \(scheme)")
+                                    
+                                    //assign to students
+                                    self.schemes.append(scheme)
+                                 }
+                                 else
+                                 {
+                                    print("Document does not exist")
+                                 }
+                            case .failure(let error):
+                                print("Error decoding scheme: \(error)")
+                            }
+                        }
+                        
+                        self.tableView.reloadData()
                     }
                 }
             }
         }
+        
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -167,12 +168,102 @@ class TutorialSummaryUITableViewController: UITableViewController {
     {
         if let newSchemeScreen = sender.source as? AddNewSchemeUIViewController
         {
-            viewDidLoad()
+            reloadDB()
+            NotificationCenter.default.post(name: Notification.Name("reloadDBToStudent"), object: nil)
         }
     }
 
     @IBAction func unwindToTutorialListWithCancel(sender: UIStoryboardSegue)
     {
+    }
+    
+    func reloadDB(){
+        let db = Firestore.firestore()
+        let studentCollection = db.collection("students")
+        studentCollection.getDocuments()
+        { result, error in
+                //check for server error
+            if let err = error
+            {
+                print("Error getting document: \(err)")
+            }
+            else
+            {
+                //loop through the results
+                self.students.removeAll()
+                for document in result!.documents
+                {
+                    //attempt to convert to student object
+                    let conversionResult = Result
+                    {
+                        try document.data(as: StudentSummary.self)
+                    }
+                    //check if conversionResult is success or failure
+                    switch conversionResult
+                    {
+                    case .success(let convertedDoc):
+                         if var student = convertedDoc
+                         {
+                            student.docId = document.documentID
+                            //print("Student: \(student)")
+                            
+                            //assign to students
+                            self.students.append(student)
+                         }
+                         else
+                         {
+                            print("Document does not exist")
+                         }
+                    case .failure(let error):
+                        print("Error decoding student: \(error)")
+                    }
+                }
+                
+                let schemeCollection = db.collection("schemes").order(by: "week")
+                schemeCollection.getDocuments()
+                { result, error in
+                        //check for server error
+                    if let err = error
+                    {
+                        print("Error getting document: \(err)")
+                    }
+                    else
+                    {
+                        //loop through the results
+                        self.schemes.removeAll()
+                        for document in result!.documents
+                        {
+                            //attempt to convert to student object
+                            let conversionResult = Result
+                            {
+                                try document.data(as: Scheme.self)
+                            }
+                            //check if conversionResult is success or failure
+                            switch conversionResult
+                            {
+                            case .success(let convertedDoc):
+                                 if var scheme = convertedDoc
+                                 {
+                                    scheme.docId = document.documentID
+                                    //print("Scheme: \(scheme)")
+                                    
+                                    //assign to students
+                                    self.schemes.append(scheme)
+                                 }
+                                 else
+                                 {
+                                    print("Document does not exist")
+                                 }
+                            case .failure(let error):
+                                print("Error decoding scheme: \(error)")
+                            }
+                        }
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+        
     }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
