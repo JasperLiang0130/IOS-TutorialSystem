@@ -161,7 +161,20 @@ class TutorialSummaryUITableViewController: UITableViewController {
         
 
         return cell
-    }    /*
+    }
+    
+    @IBAction func unwindToTutorialList(sender: UIStoryboardSegue)
+    {
+        if let newSchemeScreen = sender.source as? AddNewSchemeUIViewController
+        {
+            viewDidLoad()
+        }
+    }
+
+    @IBAction func unwindToTutorialListWithCancel(sender: UIStoryboardSegue)
+    {
+    }
+    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
@@ -235,7 +248,14 @@ class TutorialSummaryUITableViewController: UITableViewController {
             
             //send scheme to class student summary
             classStudentViewController.selectedScheme = selectedScheme
+        } else if segue.identifier == "AddNewSchemeSegue"
+        {
+            guard let addNewSchemeViewController = segue.destination as? AddNewSchemeUIViewController else
+            {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
             
+            addNewSchemeViewController.newSchemeWeek = schemes.count+1
         }
         
     }

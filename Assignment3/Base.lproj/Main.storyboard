@@ -177,7 +177,7 @@
                     <navigationItem key="navigationItem" title="Tutorials" id="qsF-ly-Kwy">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4bB-DO-NLe">
                             <connections>
-                                <segue destination="Xjg-tr-kkS" kind="show" id="u0c-gx-FUh"/>
+                                <segue destination="Xjg-tr-kkS" kind="show" identifier="AddNewSchemeSegue" id="u0c-gx-FUh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -274,7 +274,7 @@
                         <viewLayoutGuide key="safeArea" id="QWI-w8-v3q"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="xsz-uq-dI6">
+                    <navigationItem key="navigationItem" title="Add New Student" id="xsz-uq-dI6">
                         <barButtonItem key="rightBarButtonItem" title="Save" id="Gl9-gg-1kT">
                             <connections>
                                 <action selector="onSave:" destination="7rP-G0-Cjv" id="GtP-Ry-CCq"/>
@@ -493,28 +493,98 @@
         <!--Add New Scheme-->
         <scene sceneID="CMR-bt-MTI">
             <objects>
-                <viewController title="Add New Scheme" id="Xjg-tr-kkS" sceneMemberID="viewController">
+                <viewController title="Add New Scheme" id="Xjg-tr-kkS" customClass="AddNewSchemeUIViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TKk-Og-ifJ">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Scheme: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UvA-UD-8WX">
+                                <rect key="frame" x="64" y="178" width="71" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cEq-zS-c0F">
+                                <rect key="frame" x="171" y="271" width="48" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <segue destination="nvB-PN-dEZ" kind="unwind" unwindAction="unwindToTutorialListWithCancelWithSender:" id="S0o-Pd-KXD"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Extra:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oc2-hT-d4L">
+                                <rect key="frame" x="64" y="219" width="71" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wgn-pV-8wA">
+                                <rect key="frame" x="143" y="212" width="191" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" textContentType="cc-number"/>
+                                <connections>
+                                    <action selector="extraTextField:" destination="Xjg-tr-kkS" eventType="editingChanged" id="eiK-cQ-0vw"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Week: X" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y0v-e0-5I7">
+                                <rect key="frame" x="64" y="136" width="63" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Acx-ey-IIU">
+                                <rect key="frame" x="143" y="171" width="191" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="titleEdgeInsets" minX="-110" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="150" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="dropDown" image="chevron.down" catalog="system">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="dropDownButton:" destination="Xjg-tr-kkS" eventType="touchUpInside" id="rk9-v4-14Q"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="g5R-ny-rPN"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Adp-n0-m3O">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="FHG-xm-kvI"/>
+                    <navigationItem key="navigationItem" title="Add New Scheme" id="Adp-n0-m3O">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="FHG-xm-kvI">
+                            <connections>
+                                <action selector="onSaveNewScheme:" destination="Xjg-tr-kkS" id="h6F-7L-UVG"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="dropDownBtn" destination="Acx-ey-IIU" id="zdP-0W-rfW"/>
+                        <outlet property="extraLabel" destination="Oc2-hT-d4L" id="6cX-p4-wGQ"/>
+                        <outlet property="extraTextField" destination="Wgn-pV-8wA" id="dWa-Xs-2Nk"/>
+                        <outlet property="weekLabel" destination="y0v-e0-5I7" id="NNz-JV-2wA"/>
+                        <segue destination="nvB-PN-dEZ" kind="unwind" identifier="saveSchemeSegue" unwindAction="unwindToTutorialListWithSender:" id="re0-hd-1Fk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o7F-px-gWH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="nvB-PN-dEZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2954" y="456"/>
+            <point key="canvasLocation" x="2953.8461538461538" y="455.68720379146919"/>
         </scene>
     </scenes>
     <resources>
         <image name="book" catalog="system" width="128" height="102"/>
         <image name="camera" catalog="system" width="128" height="94"/>
         <image name="check" width="128" height="128"/>
+        <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="trash" catalog="system" width="121" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
@@ -526,6 +596,9 @@
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
