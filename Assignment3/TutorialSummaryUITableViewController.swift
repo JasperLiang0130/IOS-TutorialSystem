@@ -18,6 +18,21 @@ class TutorialSummaryUITableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        loadDB()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadDB(notification:)), name: Notification.Name("reloadDBFromMarking"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadDB(notification:)), name: Notification.Name("reloadDBFromAddNewStudent"), object: nil)
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+
+    @objc func reloadDB(notification: Notification){
+        loadDB()
+    }
+    func loadDB(){
         let db = Firestore.firestore()
         let studentCollection = db.collection("students")
         studentCollection.getDocuments()
@@ -105,15 +120,7 @@ class TutorialSummaryUITableViewController: UITableViewController {
             }
         }
         
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

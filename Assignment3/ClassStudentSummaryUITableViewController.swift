@@ -23,6 +23,14 @@ class ClassStudentSummaryUITableViewController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        loadDB()
+        
+        //update navigation title
+        self.navigationItem.title = "Week \(String(selectedScheme!.week)): \(transferTypeToWord(type: selectedScheme!.type, extra: selectedScheme!.extra))"
+    }
+    
+    func loadDB(){
         let db = Firestore.firestore()
         let studentCollection = db.collection("students")
         studentCollection.getDocuments()
@@ -68,8 +76,6 @@ class ClassStudentSummaryUITableViewController: UITableViewController {
             }
         }
         
-        //update navigation title
-        self.navigationItem.title = "Week \(String(selectedScheme!.week)): \(transferTypeToWord(type: selectedScheme!.type, extra: selectedScheme!.extra))"
     }
 
     // MARK: - Table view data source
@@ -121,6 +127,16 @@ class ClassStudentSummaryUITableViewController: UITableViewController {
             return ""
         }
     }
+    
+    @IBAction func unwindToStudentMark(sender: UIStoryboardSegue)
+    {
+        if let markScreen = sender.source as? MarkStudentUIViewController
+        {
+            loadDB()
+            NotificationCenter.default.post(name: Notification.Name("reloadDBFromMarking"), object: nil)
+            
+        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -156,14 +172,36 @@ class ClassStudentSummaryUITableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == "MarkingStudentSegue"
+        {
+            guard let markingViewController = segue.destination as? MarkStudentUIViewController else
+            {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let selectedStudentCell = sender as? ClassStudentSummaryUITableViewCell else {
+                fatalError("Unexpected sender: \(String(describing: sender))")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedStudentCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedStudent = students[indexPath.row]
+            
+            markingViewController.selectedScheme = selectedScheme
+            markingViewController.selectedStudent = selectedStudent
+        }
     }
-    */
+    
 
 }

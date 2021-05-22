@@ -106,7 +106,7 @@ class StudentSummaryUITableViewController: UITableViewController {
                         self.tableView.reloadData()
                         
                         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadDB(notification:)), name: Notification.Name("reloadDBToStudent"), object: nil)
-                        
+                        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadDB(notification:)), name: Notification.Name("reloadDBFromMarking"), object: nil)
                     }
                 }
             }
@@ -164,50 +164,54 @@ class StudentSummaryUITableViewController: UITableViewController {
                         print("Error decoding student: \(error)")
                     }
                 }
-            }
-        }
-        
-        let schemeCollection = db.collection("schemes")
-        schemeCollection.getDocuments()
-        { result, error in
-                //check for server error
-            if let err = error
-            {
-                print("Error getting document: \(err)")
-            }
-            else
-            {
-                //loop through the results
-                self.schemes.removeAll()
-                for document in result!.documents
-                {
-                    //attempt to convert to student object
-                    let conversionResult = Result
+                
+                let schemeCollection = db.collection("schemes")
+                schemeCollection.getDocuments()
+                { result, error in
+                        //check for server error
+                    if let err = error
                     {
-                        try document.data(as: Scheme.self)
+                        print("Error getting document: \(err)")
                     }
-                    //check if conversionResult is success or failure
-                    switch conversionResult
+                    else
                     {
-                    case .success(let convertedDoc):
-                         if var scheme = convertedDoc
-                         {
-                            scheme.docId = document.documentID
-                            //print("Scheme: \(scheme)")
-                            
-                            //assign to students
-                            self.schemes.append(scheme)
-                         }
-                         else
-                         {
-                            print("Document does not exist")
-                         }
-                    case .failure(let error):
-                        print("Error decoding scheme: \(error)")
+                        //loop through the results
+                        self.schemes.removeAll()
+                        for document in result!.documents
+                        {
+                            //attempt to convert to student object
+                            let conversionResult = Result
+                            {
+                                try document.data(as: Scheme.self)
+                            }
+                            //check if conversionResult is success or failure
+                            switch conversionResult
+                            {
+                            case .success(let convertedDoc):
+                                 if var scheme = convertedDoc
+                                 {
+                                    scheme.docId = document.documentID
+                                    //print("Scheme: \(scheme)")
+                                    
+                                    //assign to students
+                                    self.schemes.append(scheme)
+                                 }
+                                 else
+                                 {
+                                    print("Document does not exist")
+                                 }
+                            case .failure(let error):
+                                print("Error decoding scheme: \(error)")
+                            }
+                        }
+                        
+                        self.tableView.reloadData()
                     }
                 }
             }
         }
+        
+        
         
     }
 
@@ -254,6 +258,8 @@ class StudentSummaryUITableViewController: UITableViewController {
     @IBAction func unwindToStudentList(sender: UIStoryboardSegue)
     {
         viewDidLoad()
+        NotificationCenter.default.post(name: Notification.Name("reloadDBFromAddNewStudent"), object: nil)
+        
     }
     
     func showToast(controller: UIViewController, message: String, seconds: Double){

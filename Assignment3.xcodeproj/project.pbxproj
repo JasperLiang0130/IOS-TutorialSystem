@@ -14,7 +14,6 @@
 		5C6386CA26579C460051D689 /* NumTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6386C926579C460051D689 /* NumTextField.swift */; };
 		5C941395264A7BED008236C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C941394264A7BED008236C3 /* AppDelegate.swift */; };
 		5C941397264A7BED008236C3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C941396264A7BED008236C3 /* SceneDelegate.swift */; };
-		5C941399264A7BED008236C3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C941398264A7BED008236C3 /* ViewController.swift */; };
 		5C94139C264A7BED008236C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C94139A264A7BED008236C3 /* Main.storyboard */; };
 		5C94139E264A7BEE008236C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C94139D264A7BEE008236C3 /* Assets.xcassets */; };
 		5C9413A1264A7BEE008236C3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C94139F264A7BEE008236C3 /* LaunchScreen.storyboard */; };
@@ -23,6 +22,7 @@
 		5CAAC004264D727500E18F56 /* StudentSummaryUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAAC003264D727500E18F56 /* StudentSummaryUITableViewCell.swift */; };
 		5CAAC007264D751B00E18F56 /* StudentSummaryUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAAC006264D751B00E18F56 /* StudentSummaryUITableViewController.swift */; };
 		5CAAC00A264D774A00E18F56 /* StudentSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAAC009264D774A00E18F56 /* StudentSummary.swift */; };
+		5CC30E5626595682009F2551 /* MarkStudentUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC30E5526595682009F2551 /* MarkStudentUIViewController.swift */; };
 		5CCE50952654E92400078A9C /* StudentDetailUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCE50942654E92400078A9C /* StudentDetailUIViewController.swift */; };
 		5CF1DB75265893CD00EA6160 /* TutorialSummaryUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF1DB74265893CD00EA6160 /* TutorialSummaryUITableViewCell.swift */; };
 		5CF1DB7B2658989F00EA6160 /* ClassStudentSummaryUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF1DB7A2658989F00EA6160 /* ClassStudentSummaryUITableViewCell.swift */; };
@@ -40,7 +40,6 @@
 		5C941391264A7BED008236C3 /* Assignment3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assignment3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C941394264A7BED008236C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5C941396264A7BED008236C3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5C941398264A7BED008236C3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5C94139B264A7BED008236C3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5C94139D264A7BEE008236C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C9413A0264A7BEE008236C3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		5CAAC003264D727500E18F56 /* StudentSummaryUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSummaryUITableViewCell.swift; sourceTree = "<group>"; };
 		5CAAC006264D751B00E18F56 /* StudentSummaryUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSummaryUITableViewController.swift; sourceTree = "<group>"; };
 		5CAAC009264D774A00E18F56 /* StudentSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSummary.swift; sourceTree = "<group>"; };
+		5CC30E5526595682009F2551 /* MarkStudentUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkStudentUIViewController.swift; sourceTree = "<group>"; };
 		5CCE50942654E92400078A9C /* StudentDetailUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetailUIViewController.swift; sourceTree = "<group>"; };
 		5CF1DB74265893CD00EA6160 /* TutorialSummaryUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSummaryUITableViewCell.swift; sourceTree = "<group>"; };
 		5CF1DB7A2658989F00EA6160 /* ClassStudentSummaryUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassStudentSummaryUITableViewCell.swift; sourceTree = "<group>"; };
@@ -106,8 +106,8 @@
 				5CF8909626524FB90047080B /* GoogleService-Info.plist */,
 				5C941394264A7BED008236C3 /* AppDelegate.swift */,
 				5C941396264A7BED008236C3 /* SceneDelegate.swift */,
-				5C941398264A7BED008236C3 /* ViewController.swift */,
 				5C94139A264A7BED008236C3 /* Main.storyboard */,
+				5CC30E5526595682009F2551 /* MarkStudentUIViewController.swift */,
 				5CA13F7D265908B9000A214F /* AddNewSchemeUIViewController.swift */,
 				5CF1DB7D2658A10900EA6160 /* ClassStudentSummaryUITableViewController.swift */,
 				5CF1DB7A2658989F00EA6160 /* ClassStudentSummaryUITableViewCell.swift */,
@@ -255,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CF1DB75265893CD00EA6160 /* TutorialSummaryUITableViewCell.swift in Sources */,
+				5CC30E5626595682009F2551 /* MarkStudentUIViewController.swift in Sources */,
 				5CAAC00A264D774A00E18F56 /* StudentSummary.swift in Sources */,
 				5CF1DB7E2658A10900EA6160 /* ClassStudentSummaryUITableViewController.swift in Sources */,
 				5CF1DB7B2658989F00EA6160 /* ClassStudentSummaryUITableViewCell.swift in Sources */,
@@ -262,7 +263,6 @@
 				5C1F8B63265693ED0035FBD9 /* DropDownButton.swift in Sources */,
 				5CF1DB822658AADF00EA6160 /* TutorialSummaryUITableViewController.swift in Sources */,
 				5CAAC004264D727500E18F56 /* StudentSummaryUITableViewCell.swift in Sources */,
-				5C941399264A7BED008236C3 /* ViewController.swift in Sources */,
 				5CF41ADA2657DB3600E62A46 /* CalculatorForGrade.swift in Sources */,
 				5CAAC007264D751B00E18F56 /* StudentSummaryUITableViewController.swift in Sources */,
 				5C6386CA26579C460051D689 /* NumTextField.swift in Sources */,

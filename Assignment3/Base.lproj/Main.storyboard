@@ -476,6 +476,7 @@
                                     <outlet property="gradelabel" destination="hL6-nh-MHs" id="gBr-MK-Ycl"/>
                                     <outlet property="studentID" destination="LiA-ZD-G3d" id="9uk-KV-OJl"/>
                                     <outlet property="studentName" destination="cdd-Ca-i88" id="BSx-hi-NIY"/>
+                                    <segue destination="Yoc-kr-Zac" kind="show" identifier="MarkingStudentSegue" id="maA-ww-LWV"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -573,6 +574,79 @@
                 <exit id="nvB-PN-dEZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2953.8461538461538" y="455.68720379146919"/>
+        </scene>
+        <!--Marking Student-->
+        <scene sceneID="qhI-Bm-MUQ">
+            <objects>
+                <viewController title="Marking Student" id="Yoc-kr-Zac" customClass="MarkStudentUIViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ubd-wv-ypT">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMx-Lg-dgz">
+                                <rect key="frame" x="42" y="132" width="62" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ID :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i3l-MN-UAL">
+                                <rect key="frame" x="42" y="172" width="29" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VYX-rX-YA8">
+                                <rect key="frame" x="143" y="132" width="194" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="id description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mY4-1e-I7z">
+                                <rect key="frame" x="143" y="174" width="194" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Grade :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nGe-FZ-gJh">
+                                <rect key="frame" x="42" y="212" width="64" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ct-yq-RVW">
+                                <rect key="frame" x="143" y="212" width="206" height="535"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Uk0-8Q-3U9"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="GUs-01-fWx"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Nwg-pP-Iv4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Marking grade" id="YcX-Gp-4q4">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="oq8-2t-Qej">
+                            <connections>
+                                <action selector="onMarkSave:" destination="Yoc-kr-Zac" id="9Fn-u8-Uq9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="gradeLabel" destination="nGe-FZ-gJh" id="zXK-Ug-oB2"/>
+                        <outlet property="markView" destination="3ct-yq-RVW" id="Uqq-gu-IaP"/>
+                        <outlet property="nameLabel" destination="VYX-rX-YA8" id="Wn5-fQ-24G"/>
+                        <outlet property="stuIdLabel" destination="mY4-1e-I7z" id="6ey-BB-OAF"/>
+                        <segue destination="LZP-cQ-PGc" kind="unwind" identifier="saveMarkSegue" unwindAction="unwindToStudentMarkWithSender:" id="YLF-Up-38E"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MKt-ml-4aR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="LZP-cQ-PGc" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3881.5384615384614" y="1188.6255924170616"/>
         </scene>
     </scenes>
     <resources>
