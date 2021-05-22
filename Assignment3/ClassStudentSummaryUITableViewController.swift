@@ -6,41 +6,121 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseFirestoreSwift
 
 class ClassStudentSummaryUITableViewController: UITableViewController {
 
+    var selectedScheme: Scheme?
+    var students = [StudentSummary]()
+    var calculator = CalculatorForGrade()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        let db = Firestore.firestore()
+        let studentCollection = db.collection("students")
+        studentCollection.getDocuments()
+        { result, error in
+                //check for server error
+            if let err = error
+            {
+                print("Error getting document: \(err)")
+            }
+            else
+            {
+                //loop through the results
+                self.students.removeAll()
+                for document in result!.documents
+                {
+                    //attempt to convert to student object
+                    let conversionResult = Result
+                    {
+                        try document.data(as: StudentSummary.self)
+                    }
+                    //check if conversionResult is success or failure
+                    switch conversionResult
+                    {
+                    case .success(let convertedDoc):
+                         if var student = convertedDoc
+                         {
+                            student.docId = document.documentID
+                            //print("Student: \(student)")
+                            
+                            //assign to students
+                            self.students.append(student)
+                         }
+                         else
+                         {
+                            print("Document does not exist")
+                         }
+                    case .failure(let error):
+                        print("Error decoding student: \(error)")
+                    }
+                }
+                
+                self.tableView.reloadData()
+            }
+        }
+        
+        //update navigation title
+        self.navigationItem.title = "Week \(String(selectedScheme!.week)): \(transferTypeToWord(type: selectedScheme!.type, extra: selectedScheme!.extra))"
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return students.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ClassStudentSummaryUITableViewCell", for: indexPath)
 
         // Configure the cell...
+        let student = students[indexPath.row]
+        
+        if let classStudentCell = cell as? ClassStudentSummaryUITableViewCell
+        {
+            let imgDecoded : Data = Data(base64Encoded: student.img, options: .ignoreUnknownCharacters)!
+            let decodedImg = UIImage(data:imgDecoded)
+            classStudentCell.displayImg.image = decodedImg
+            classStudentCell.studentName.text = student.name
+            classStudentCell.studentID.text = student.id
+            classStudentCell.gradelabel.text = calculator.getStudentGradeSlash(student: student, scheme: selectedScheme!)
+        }
 
         return cell
     }
-    */
-
+    
+    
+    func transferTypeToWord(type:String, extra:String) ->String{
+        switch type {
+        case "attendance":
+            return "ATTENDANCE"
+        case "level_HD":
+            return "HD-NN"
+        case "level_A":
+            return "A-F"
+        case "score":
+            return "Score of "+extra
+        case "checkbox":
+            return "CHECKBOX"
+        default:
+            return ""
+        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

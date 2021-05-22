@@ -7,8 +7,14 @@
 
 import UIKit
 
-class ClassStudentSummaryUIViewCellTableViewCell: UITableViewCell {
+class ClassStudentSummaryUITableViewCell: UITableViewCell {
 
+    @IBOutlet var displayImg: UIImageView!
+    @IBOutlet var studentName: UILabel!
+    @IBOutlet var studentID: UILabel!
+    @IBOutlet var gradelabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -28,7 +28,7 @@
             </objects>
             <point key="canvasLocation" x="356.52173913043481" y="131.91964285714286"/>
         </scene>
-        <!--Students Summary-->
+        <!--Students-->
         <scene sceneID="INt-db-AFl">
             <objects>
                 <tableViewController id="NNc-u5-yRS" customClass="StudentSummaryUITableViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
@@ -94,7 +94,7 @@
                             <outlet property="delegate" destination="NNc-u5-yRS" id="6ZQ-hJ-NyA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Students Summary" id="nj4-Y1-YyW">
+                    <navigationItem key="navigationItem" title="Students" id="nj4-Y1-YyW">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="57U-hc-Lnm">
                             <connections>
                                 <segue destination="7rP-G0-Cjv" kind="show" identifier="addNewStudentSegue" id="eJO-if-nqn"/>
@@ -106,7 +106,7 @@
             </objects>
             <point key="canvasLocation" x="1971" y="-243"/>
         </scene>
-        <!--Tutorial Summary-->
+        <!--Tutorials-->
         <scene sceneID="3mj-7K-rmZ">
             <objects>
                 <tableViewController id="AXT-3Y-cbj" customClass="TutorialSummaryUITableViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
@@ -174,8 +174,12 @@
                             <outlet property="delegate" destination="AXT-3Y-cbj" id="2I5-nr-8bb"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Tutorial Summary" id="qsF-ly-Kwy">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="4bB-DO-NLe"/>
+                    <navigationItem key="navigationItem" title="Tutorials" id="qsF-ly-Kwy">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="4bB-DO-NLe">
+                            <connections>
+                                <segue destination="Xjg-tr-kkS" kind="show" id="u0c-gx-FUh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Utm-fr-pIZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -403,7 +407,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2N4-d6-2g1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="tMv-Cx-lqE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3766.1538461538462" y="60.426540284360186"/>
+            <point key="canvasLocation" x="3705" y="-243"/>
         </scene>
         <!--Tutorial-->
         <scene sceneID="YQx-mg-yJ7">
@@ -433,7 +437,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ClassStudentSummaryUITableViewCell" rowHeight="90" id="VLs-JW-g4P" customClass="ClassStudentSummaryUIViewCellTableViewCell" customModule="Assignment3" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ClassStudentSummaryUITableViewCell" rowHeight="90" id="VLs-JW-g4P" customClass="ClassStudentSummaryUITableViewCell" customModule="Assignment3" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="390" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VLs-JW-g4P" id="Zfm-Ed-pCM">
@@ -458,13 +462,21 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hjJ-yS-g6c" userLabel="Type View">
-                                            <rect key="frame" x="231" y="3" width="139" height="85"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Grade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hL6-nh-MHs">
+                                            <rect key="frame" x="284" y="35" width="96" height="24"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="displayImg" destination="swD-nA-6sm" id="tBK-E5-o33"/>
+                                    <outlet property="gradelabel" destination="hL6-nh-MHs" id="gBr-MK-Ycl"/>
+                                    <outlet property="studentID" destination="LiA-ZD-G3d" id="9uk-KV-OJl"/>
+                                    <outlet property="studentName" destination="cdd-Ca-i88" id="BSx-hi-NIY"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -476,7 +488,25 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="osl-8Y-krq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3047.6923076923076" y="1041.4691943127962"/>
+            <point key="canvasLocation" x="2954" y="1189"/>
+        </scene>
+        <!--Add New Scheme-->
+        <scene sceneID="CMR-bt-MTI">
+            <objects>
+                <viewController title="Add New Scheme" id="Xjg-tr-kkS" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TKk-Og-ifJ">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="g5R-ny-rPN"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Adp-n0-m3O">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="FHG-xm-kvI"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o7F-px-gWH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2954" y="456"/>
         </scene>
     </scenes>
     <resources>

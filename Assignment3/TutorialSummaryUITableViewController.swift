@@ -206,14 +206,39 @@ class TutorialSummaryUITableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "ClassStudentSummarySegue"
+        {
+            guard let classStudentViewController = segue.destination as? ClassStudentSummaryUITableViewController else
+            {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let selectedSchemeCell = sender as? TutorialSummaryUITableViewCell else
+            {
+                fatalError("Unexpected sender: \( String(describing: sender))")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedSchemeCell) else
+            {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedScheme = schemes[indexPath.row]
+            
+            //send scheme to class student summary
+            classStudentViewController.selectedScheme = selectedScheme
+            
+        }
+        
     }
-    */
+    
 
 }

@@ -85,6 +85,54 @@ class CalculatorForGrade{
 
     }
     
+    func getStudentGradeSlash(student:StudentSummary, scheme:Scheme) ->String{
+        return getCheckedEmptyMark(s: student.grades[scheme.week-1], scheme: scheme)
+    }
+    
+    private func getCheckedEmptyMark(s:String, scheme:Scheme) ->String{
+        
+        switch scheme.type {
+            case "level_HD":
+                if s == ""
+                {
+                    return "No mark"
+                }else{
+                    return s
+                }
+            case "level_A":
+                if s == ""
+                {
+                    return "No mark"
+                }else{
+                    return s
+                }
+            case "attendance":
+                if s == ""
+                {
+                    return "No mark"
+                }else{
+                    return s
+                }
+            case "score":
+                if s == ""
+                {
+                    return "No mark"
+                }else{
+                    return "\(s) /\(scheme.extra).0"
+                }
+            case "checkbox":
+                if s == ""
+                {
+                    return "No mark"
+                }else{
+                    return transferCheckBoxSlash(s: s)
+                    
+                }
+            default:
+                return "No this scheme type"
+        }
+    }
+    
     private func getScore(s:String) -> Double{
         if s == ""
         {
@@ -140,7 +188,7 @@ class CalculatorForGrade{
         let checks = s.components(separatedBy: ",")
         if s == ""
         {
-            return "0/\(String(checks.count))"
+            return "0 / \(String(checks.count))"
         }
         var sum:Int = 0
         for c in checks{
@@ -148,7 +196,7 @@ class CalculatorForGrade{
                 sum = sum + 1
             }
         }
-        return "\(String(sum))/\(String(checks.count))"
+        return "\(String(sum)) / \(String(checks.count))"
         
     }
     
