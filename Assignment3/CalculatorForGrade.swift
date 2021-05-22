@@ -10,7 +10,7 @@ import Foundation
 class CalculatorForGrade{
     
     func getStudentAvgGrade(grades:Array<String>, schemes:Array<Scheme>) -> String{
-        
+             
         var sum : Double = 0
         for index in 0...(schemes.count-1)
         {
