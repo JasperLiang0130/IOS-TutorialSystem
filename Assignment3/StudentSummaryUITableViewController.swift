@@ -15,6 +15,9 @@ class StudentSummaryUITableViewController: UITableViewController {
     var students = [StudentSummary]()
     var schemes = [Scheme]()
     let calculator = CalculatorForGrade()
+    var filterStudents = [StudentSummary]()
+    
+    @IBOutlet var filterTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,108 +25,51 @@ class StudentSummaryUITableViewController: UITableViewController {
         //set navigation item
         //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped)
         
-        let db = Firestore.firestore()
-        let studentCollection = db.collection("students")
-        studentCollection.getDocuments()
-        { result, error in
-                //check for server error
-            if let err = error
-            {
-                print("Error getting document: \(err)")
-            }
-            else
-            {
-                //loop through the results
-                self.students.removeAll()
-                for document in result!.documents
-                {
-                    //attempt to convert to student object
-                    let conversionResult = Result
-                    {
-                        try document.data(as: StudentSummary.self)
-                    }
-                    //check if conversionResult is success or failure
-                    switch conversionResult
-                    {
-                    case .success(let convertedDoc):
-                         if var student = convertedDoc
-                         {
-                            student.docId = document.documentID
-                            //print("Student: \(student)")
-                            
-                            //assign to students
-                            self.students.append(student)
-                         }
-                         else
-                         {
-                            print("Document does not exist")
-                         }
-                    case .failure(let error):
-                        print("Error decoding student: \(error)")
-                    }
-                }
-                
-                let schemeCollection = db.collection("schemes")
-                schemeCollection.getDocuments()
-                { result, error in
-                        //check for server error
-                    if let err = error
-                    {
-                        print("Error getting document: \(err)")
-                    }
-                    else
-                    {
-                        //loop through the results
-                        self.schemes.removeAll()
-                        for document in result!.documents
-                        {
-                            //attempt to convert to student object
-                            let conversionResult = Result
-                            {
-                                try document.data(as: Scheme.self)
-                            }
-                            //check if conversionResult is success or failure
-                            switch conversionResult
-                            {
-                            case .success(let convertedDoc):
-                                 if var scheme = convertedDoc
-                                 {
-                                    scheme.docId = document.documentID
-                                    //print("Scheme: \(scheme)")
-                                    
-                                    //assign to students
-                                    self.schemes.append(scheme)
-                                 }
-                                 else
-                                 {
-                                    print("Document does not exist")
-                                 }
-                            case .failure(let error):
-                                print("Error decoding scheme: \(error)")
-                            }
-                        }
-                        
-                        self.tableView.reloadData()
-                        
-                        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadDB(notification:)), name: Notification.Name("reloadDBToStudent"), object: nil)
-                        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadDB(notification:)), name: Notification.Name("reloadDBFromMarking"), object: nil)
-                    }
-                }
-            }
-        }
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-        
+        loadDB()
+        filterTextField.setBottomBorder(_bgColor: UIColor.white)
+        filterTextField.addTarget(self, action: #selector(filter(sender:)), for: UIControl.Event.editingChanged)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadDB(notification:)), name: Notification.Name("reloadDBToStudent"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadDB(notification:)), name: Notification.Name("reloadDBFromMarking"), object: nil)
         
     }
     
-    @objc func reloadDB(notification: Notification){
+    @objc func filter(sender: UITextField){
+        print("filter: \(sender.text!)")
+        if sender.text! == ""
+        {
+            filterStudents = students
+        }else
+        {
+            filterStudents.removeAll()
+            for s in students
+            {
+                let lowName = s.name.lowercased()
+                let lowText = sender.text!.lowercased()
+                let range = lowText.startIndex..<lowText.endIndex
+                if lowName.count >= lowText.count && lowText == lowName[range] {
+                    filterStudents.append(s)
+                }
+
+            }
+            if Array(sender.text!).first!.isNumber //check first character is number or not
+            {
+                for s in students
+                {
+                    let lowName = s.id.lowercased()
+                    let lowText = sender.text!.lowercased()
+                    let range = lowText.startIndex..<lowText.endIndex
+                    if lowName.count >= lowText.count && lowText == lowName[range] {
+                        filterStudents.append(s)
+                    }
+                }
+            }
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    
+    func loadDB(){
         let db = Firestore.firestore()
         let studentCollection = db.collection("students")
         studentCollection.getDocuments()
@@ -137,6 +83,7 @@ class StudentSummaryUITableViewController: UITableViewController {
             {
                 //loop through the results
                 self.students.removeAll()
+                self.filterStudents.removeAll()
                 for document in result!.documents
                 {
                     //attempt to convert to student object
@@ -155,6 +102,7 @@ class StudentSummaryUITableViewController: UITableViewController {
                             
                             //assign to students
                             self.students.append(student)
+                            self.filterStudents.append(student)
                          }
                          else
                          {
@@ -206,13 +154,14 @@ class StudentSummaryUITableViewController: UITableViewController {
                         }
                         
                         self.tableView.reloadData()
+
                     }
                 }
             }
-        }
-        
-        
-        
+        }    }
+    
+    @objc func reloadDB(notification: Notification){
+        loadDB()
     }
 
     
@@ -225,7 +174,7 @@ class StudentSummaryUITableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return students.count
+        return filterStudents.count
     }
 
     
@@ -233,7 +182,7 @@ class StudentSummaryUITableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StudentSummaryUITableViewCell", for: indexPath)
 
         // Configure the cell...
-        let student = students[indexPath.row]
+        let student = filterStudents[indexPath.row]
         
         //down-cast the cell from UITableViewCell to our cell class MovieUITableViewCell
         //note, this could fail, so we use an if let.
